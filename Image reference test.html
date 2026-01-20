@@ -1,0 +1,286 @@
+<!-- Framework Section - Grid Layout with 2 Columns, 4 Rows -->
+
+<!-- GSAP & ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+  :root {
+    --bg: #020d08;
+    --primary: #008a54;
+    --muted: #8c9390;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    background-color: var(--bg); 
+    color: var(--white); 
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+    overflow-x: hidden; 
+  }
+
+  /* Framework Grid Container */
+  .framework-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 40px;
+  }
+
+  /* Phase Row - 2 Columns */
+  .phase-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    min-height: 100vh;
+    padding: 60px 0;
+  }
+
+  /* Content Column */
+  .phase-content {
+    padding: 40px;
+  }
+
+  .tag {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+    letter-spacing: 1.5px;
+  }
+
+  h3 {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    line-height: 1.1;
+    color: var(--white);
+  }
+
+  .bold-desc {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .btn-frame {
+    background: #004d30;
+    border: 1px solid #006b43;
+    color: white;
+    padding: 16px 48px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 20px;
+  }
+
+  .btn-frame:hover {
+    background: #006b43;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 138, 84, 0.3);
+  }
+
+  /* Image Column */
+  .phase-image {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 138, 84, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 138, 84, 0.1);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .phase-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .phase-image-placeholder {
+    color: var(--muted);
+    font-size: 16px;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+  }
+
+  /* Alternating Layout - Image on left for odd rows */
+  .phase-row:nth-child(odd) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .phase-row:nth-child(odd) .phase-content {
+    order: 2;
+  }
+
+  .phase-row:nth-child(odd) .phase-image {
+    order: 1;
+  }
+
+  /* Image on right for even rows */
+  .phase-row:nth-child(even) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .phase-row:nth-child(even) .phase-content {
+    order: 1;
+  }
+
+  .phase-row:nth-child(even) .phase-image {
+    order: 2;
+  }
+
+  /* Scroll Animations */
+  .phase-row {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .phase-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 1024px) {
+    .phase-row {
+      grid-template-columns: 1fr !important;
+      gap: 40px;
+      min-height: auto;
+      padding: 40px 0;
+    }
+
+    .phase-row:nth-child(odd) .phase-content,
+    .phase-row:nth-child(even) .phase-content {
+      order: 1 !important;
+    }
+
+    .phase-row:nth-child(odd) .phase-image,
+    .phase-row:nth-child(even) .phase-image {
+      order: 2 !important;
+    }
+
+    .phase-image {
+      height: 400px;
+    }
+
+    h3 {
+      font-size: 36px;
+    }
+
+    .framework-section {
+      padding: 60px 20px;
+    }
+  }
+</style>
+
+<div class="framework-section">
+  
+  <!-- Phase 1: Brand Core -->
+  <div class="phase-row" id="phase-1">
+    <div class="phase-content">
+      <span class="tag">Phase 1: The Foundation</span>
+      <h3>Brand Core</h3>
+      <p class="bold-desc">Lay the strategic groundwork for the brand.</p>
+      <p>We help you spot market opportunities, validate problems to co-define your solution, brand identity, positioning, and narrative, and offer logic to build a meaningful and differentiated presence.</p>
+      <p>This phase covers brand DNA, customer insight, messaging architecture, and the core digital touchpoints like your landing page or social media.</p>
+      <a href="#" class="btn-frame">See the Framework</a>
+    </div>
+    <div class="phase-image">
+      <!-- Replace src with your GIF/image path -->
+      <img src="https://i.postimg.cc/8zMJ2d5w/image-4.png" alt="Phase 1 - Brand Core">
+      <!-- Or use placeholder text -->
+      <!-- <div class="phase-image-placeholder">Add Phase 1 GIF/Image Here</div> -->
+    </div>
+  </div>
+
+  <!-- Phase 2: Building the Awareness Engine -->
+  <div class="phase-row" id="phase-2">
+    <div class="phase-content">
+      <span class="tag">Phase 2: Brand Activation</span>
+      <h3>Building the Awareness Engine</h3>
+      <p class="bold-desc">Transform strategy into momentum.</p>
+      <p>We create brand signals and value chains that affirm trust and generate demand. This includes outbound campaigns, magnet content, affiliate & branded content, activation loops, and systems to consistently earn attention and build belief.</p>
+      <a href="#" class="btn-frame">See the Framework</a>
+    </div>
+    <div class="phase-image">
+      <!-- Replace src with your GIF/image path -->
+      <img src="https://i.postimg.cc/BQp0JqJk/image-1.png" alt="Phase 2 - Awareness Engine">
+    </div>
+  </div>
+
+  <!-- Phase 3: Designing and Optimizing Touchpoints -->
+  <div class="phase-row" id="phase-3">
+    <div class="phase-content">
+      <span class="tag">Phase 3: Acquisition & Conversion</span>
+      <h3>Designing and Optimizing Touchpoints</h3>
+      <p class="bold-desc">Engineer belief-based customer journeys.</p>
+      <p>We map, design, and optimize every touchpoint across the buying journey, guiding users through awareness, intent, and action. This phase turns belief into revenue by creating honest content that reflects the real value your customers experience. Shifting the focus from lead gen obsession, to growing perceived brand value where it matters most.</p>
+      <a href="#" class="btn-frame">See the Framework</a>
+    </div>
+    <div class="phase-image">
+      <!-- Replace src with your GIF/image path -->
+      <img src="https://i.postimg.cc/pdLQ04b5/image-2.png" alt="Phase 3 - Touchpoints">
+    </div>
+  </div>
+
+  <!-- Phase 4: From Customers to Catalysts -->
+  <div class="phase-row" id="phase-4">
+    <div class="phase-content">
+      <span class="tag">Phase 4: Retention & Upsell</span>
+      <h3>From Customers to Catalysts</h3>
+      <p class="bold-desc">Turn transactions into long-term growth.</p>
+      <p>Advocacy is just the beginning. Your best growth lever isn't ads, it's the people already using, loving, and trusting your product. But retention isn't about holding on. It's about listening harder, serving deeper, and uncovering the next layer of value together.</p>
+      <a href="#" class="btn-frame">See the Framework</a>
+    </div>
+    <div class="phase-image">
+      <!-- Replace src with your GIF/image path -->
+      <img src="https://i.postimg.cc/qRLx9wyS/image-3.png" alt="Phase 4 - Customer Catalysts">
+    </div>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      console.error('GSAP or ScrollTrigger not loaded');
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate each phase row on scroll
+    const phaseRows = document.querySelectorAll('.phase-row');
+    
+    phaseRows.forEach((row, index) => {
+      ScrollTrigger.create({
+        trigger: row,
+        start: "top 70%",
+        onEnter: () => {
+          row.classList.add('visible');
+        },
+        once: true
+      });
+    });
+  });
+</script>
