@@ -369,6 +369,28 @@
         const filterBtns = document.querySelectorAll('.filter-btn');
         const stats = document.getElementById('stats');
 
+        // Load tasks from storage on startup
+        async function loadTasks() {
+            try {
+                const result = await window.storage.get('tasks');
+                if (result && result.value) {
+                    tasks = JSON.parse(result.value);
+                    renderTasks();
+                }
+            } catch (error) {
+                console.log('No saved tasks found, starting fresh');
+            }
+        }
+
+        // Save tasks to storage
+        async function saveTasks() {
+            try {
+                await window.storage.set('tasks', JSON.stringify(tasks));
+            } catch (error) {
+                console.error('Error saving tasks:', error);
+            }
+        }
+
         function addTask() {
             const text = taskInput.value.trim();
             if (text === '') return;
@@ -384,6 +406,7 @@
             tasks.unshift(task);
             taskInput.value = '';
             dueDate.value = '';
+            saveTasks();
             renderTasks();
         }
 
@@ -391,12 +414,14 @@
             const task = tasks.find(t => t.id === id);
             if (task) {
                 task.completed = !task.completed;
+                saveTasks();
                 renderTasks();
             }
         }
 
         function deleteTask(id) {
             tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
             renderTasks();
         }
 
@@ -519,7 +544,8 @@
             });
         });
 
-        renderTasks();
+        // Load tasks when the app starts
+        loadTasks();
     </script>
 </body>
 </html>
