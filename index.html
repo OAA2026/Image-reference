@@ -1,287 +1,525 @@
-<!-- Framework Section - Grid Layout with 2 Columns, 4 Rows -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Task Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- GSAP & ScrollTrigger -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
 
-<style>
-  :root {
-    --bg: #020d08;
-    --primary: #008a54;
-    --muted: #8c9390;
-    --white: #ffffff;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { 
-    background-color: var(--bg); 
-    color: var(--white); 
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
-    overflow-x: hidden; 
-  }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-  /* Framework Grid Container */
-  .framework-section {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 100px 40px;
-  }
+        .header {
+            margin-bottom: 60px;
+            text-align: left;
+        }
 
-  /* Phase Row - 2 Columns */
-  .phase-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    min-height: 100vh;
-    padding: 60px 0;
-  }
+        h1 {
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-  /* Content Column */
-  .phase-content {
-    padding: 40px;
-  }
+        .subtitle {
+            font-size: 18px;
+            color: #888;
+            font-weight: 400;
+        }
 
-  .tag {
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 14px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    display: block;
-    letter-spacing: 1.5px;
-  }
+        .input-section {
+            background: #151515;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            transition: border-color 0.3s;
+        }
 
-  h3 {
-    font-size: 52px;
-    font-weight: 800;
-    margin-bottom: 24px;
-    line-height: 1.1;
-    color: var(--white);
-  }
+        .input-section:hover {
+            border-color: #3a3a3a;
+        }
 
-  .bold-desc {
-    font-weight: 700;
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: var(--white);
-  }
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
 
-  p {
-    color: var(--muted);
-    font-size: 17px;
-    line-height: 1.7;
-    margin-bottom: 28px;
-  }
+        .input-wrapper {
+            position: relative;
+        }
 
-  .btn-frame {
-    background: #004d30;
-    border: 1px solid #006b43;
-    color: white;
-    padding: 16px 48px;
-    border-radius: 30px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
-    text-decoration: none;
-    margin-top: 20px;
-  }
+        label {
+            display: block;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-  .btn-frame:hover {
-    background: #006b43;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 138, 84, 0.3);
-  }
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 14px 18px;
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
 
-  /* Image Column */
-  .phase-image {
-    width: 100%;
-    height: 600px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 138, 84, 0.05);
-    border-radius: 16px;
-    border: 1px solid rgba(0, 138, 84, 0.1);
-    overflow: hidden;
-    position: relative;
-  }
+        input[type="text"]:focus,
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #4a4a4a;
+            background: #0f0f0f;
+        }
 
-  .phase-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
+        input[type="date"] {
+            color-scheme: dark;
+        }
 
-  .phase-image-placeholder {
-    color: var(--muted);
-    font-size: 16px;
-    font-style: italic;
-    text-align: center;
-    padding: 20px;
-  }
+        .add-btn {
+            padding: 14px 32px;
+            background: #ffffff;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            align-self: end;
+        }
 
-  /* Alternating Layout - Image on left for odd rows */
-  .phase-row:nth-child(odd) {
-    grid-template-columns: 1fr 1fr;
-  }
+        .add-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
 
-  .phase-row:nth-child(odd) .phase-content {
-    order: 2;
-  }
+        .add-btn:active {
+            transform: translateY(0);
+        }
 
-  .phase-row:nth-child(odd) .phase-image {
-    order: 1;
-  }
+        .filter-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #2a2a2a;
+        }
 
-  /* Image on right for even rows */
-  .phase-row:nth-child(even) {
-    grid-template-columns: 1fr 1fr;
-  }
+        .filter-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            color: #888;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
 
-  .phase-row:nth-child(even) .phase-content {
-    order: 1;
-  }
+        .filter-btn:hover {
+            border-color: #4a4a4a;
+            color: #ffffff;
+        }
 
-  .phase-row:nth-child(even) .phase-image {
-    order: 2;
-  }
+        .filter-btn.active {
+            background: #ffffff;
+            color: #0a0a0a;
+            border-color: #ffffff;
+        }
 
-  /* Scroll Animations */
-  .phase-row {
-    opacity: 0;
-    transform: translateY(40px);
-  }
+        .tasks-section {
+            min-height: 400px;
+        }
 
-  .phase-row.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+        .task-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            gap: 20px;
+            padding: 24px;
+            margin-bottom: 12px;
+            background: #151515;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
 
-  /* Mobile Responsive */
-  @media (max-width: 1024px) {
-    .phase-row {
-      grid-template-columns: 1fr !important;
-      gap: 40px;
-      min-height: auto;
-      padding: 40px 0;
-    }
+        .task-item:hover {
+            border-color: #3a3a3a;
+            transform: translateX(4px);
+        }
 
-    .phase-row:nth-child(odd) .phase-content,
-    .phase-row:nth-child(even) .phase-content {
-      order: 1 !important;
-    }
+        .task-item.completed {
+            opacity: 0.5;
+        }
 
-    .phase-row:nth-child(odd) .phase-image,
-    .phase-row:nth-child(even) .phase-image {
-      order: 2 !important;
-    }
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #666;
+        }
 
-    .phase-image {
-      height: 400px;
-    }
+        .task-item.overdue:not(.completed) {
+            border-color: #5a2a2a;
+        }
 
-    h3 {
-      font-size: 36px;
-    }
+        .checkbox-wrapper {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
 
-    .framework-section {
-      padding: 60px 20px;
-    }
-  }
-</style>
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            appearance: none;
+            border: 2px solid #3a3a3a;
+            border-radius: 6px;
+            background: transparent;
+            transition: all 0.3s;
+        }
 
-<div class="framework-section">
-  
-  <!-- Phase 1: Brand Core -->
-  <div class="phase-row" id="phase-1">
-    <div class="phase-content">
-      <span class="tag">Phase 1: The Foundation</span>
-      <h3>Brand Core</h3>
-      <p class="bold-desc">Lay the strategic groundwork for the brand.</p>
-      <p>We help you spot market opportunities, validate problems to co-define your solution, brand identity, positioning, and narrative, and offer logic to build a meaningful and differentiated presence.</p>
-      <p>This phase covers brand DNA, customer insight, messaging architecture, and the core digital touchpoints like your landing page or social media.</p>
-      <a href="#" class="btn-frame">See the Framework</a>
+        .checkbox:checked {
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0a0a0a;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-text {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .task-due {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .task-due.overdue {
+            color: #ff6b6b;
+        }
+
+        .delete-btn {
+            background: transparent;
+            color: #888;
+            border: 1px solid #2a2a2a;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #ff4444;
+            border-color: #ff4444;
+            color: #ffffff;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 18px;
+        }
+
+        .stats {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .task-item {
+                grid-template-columns: auto 1fr;
+                gap: 12px;
+            }
+
+            .delete-btn {
+                grid-column: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Task Manager</h1>
+            <div class="subtitle">Build your day with clarity and intention</div>
+        </div>
+
+        <div class="input-section">
+            <div class="input-row">
+                <div class="input-wrapper">
+                    <label for="taskInput">Task Description</label>
+                    <input type="text" id="taskInput" placeholder="What needs to be done?" />
+                </div>
+                <div class="input-wrapper">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" id="dueDate" />
+                </div>
+            </div>
+            <button class="add-btn" id="addBtn">Add Task</button>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">All Tasks</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+            <button class="filter-btn" data-filter="overdue">Overdue</button>
+        </div>
+
+        <div class="tasks-section" id="tasksList"></div>
+
+        <div class="stats" id="stats"></div>
     </div>
-    <div class="phase-image">
-      <!-- Replace src with your GIF/image path -->
-      <img src="GIF-3-Phase-3-STF.gif" alt="Phase 1 - Brand Core">
-      <!-- Or use placeholder text -->
-      <!-- <div class="phase-image-placeholder">Add Phase 1 GIF/Image Here</div> -->
-    </div>
-  </div>
 
-  <!-- Phase 2: Building the Awareness Engine -->
-  <div class="phase-row" id="phase-2">
-    <div class="phase-content">
-      <span class="tag">Phase 2: Brand Activation</span>
-      <h3>Building the Awareness Engine</h3>
-      <p class="bold-desc">Transform strategy into momentum.</p>
-      <p>We create brand signals and value chains that affirm trust and generate demand. This includes outbound campaigns, magnet content, affiliate & branded content, activation loops, and systems to consistently earn attention and build belief.</p>
-      <a href="#" class="btn-frame">See the Framework</a>
-    </div>
-    <div class="phase-image">
-      <!-- Replace src with your GIF/image path -->
-      <img src="https://i.postimg.cc/BQp0JqJk/image-1.png" alt="Phase 2 - Awareness Engine">
-    </div>
-  </div>
+    <script>
+        let tasks = [];
+        let currentFilter = 'all';
 
-  <!-- Phase 3: Designing and Optimizing Touchpoints -->
-  <div class="phase-row" id="phase-3">
-    <div class="phase-content">
-      <span class="tag">Phase 3: Acquisition & Conversion</span>
-      <h3>Designing and Optimizing Touchpoints</h3>
-      <p class="bold-desc">Engineer belief-based customer journeys.</p>
-      <p>We map, design, and optimize every touchpoint across the buying journey, guiding users through awareness, intent, and action. This phase turns belief into revenue by creating honest content that reflects the real value your customers experience. Shifting the focus from lead gen obsession, to growing perceived brand value where it matters most.</p>
-      <a href="#" class="btn-frame">See the Framework</a>
-    </div>
-    <div class="phase-image">
-      <!-- Replace src with your GIF/image path -->
-      <img src="https://i.postimg.cc/pdLQ04b5/image-2.png" alt="Phase 3 - Touchpoints">
-    </div>
-  </div>
+        const taskInput = document.getElementById('taskInput');
+        const dueDate = document.getElementById('dueDate');
+        const addBtn = document.getElementById('addBtn');
+        const tasksList = document.getElementById('tasksList');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const stats = document.getElementById('stats');
 
-  <!-- Phase 4: From Customers to Catalysts -->
-  <div class="phase-row" id="phase-4">
-    <div class="phase-content">
-      <span class="tag">Phase 4: Retention & Upsell</span>
-      <h3>From Customers to Catalysts</h3>
-      <p class="bold-desc">Turn transactions into long-term growth.</p>
-      <p>Advocacy is just the beginning. Your best growth lever isn't ads, it's the people already using, loving, and trusting your product. But retention isn't about holding on. It's about listening harder, serving deeper, and uncovering the next layer of value together.</p>
-      <a href="#" class="btn-frame">See the Framework</a>
-    </div>
-    <div class="phase-image">
-      <!-- Replace src with your GIF/image path -->
-      <img src="https://i.postimg.cc/qRLx9wyS/image-3.png" alt="Phase 4 - Customer Catalysts">
-    </div>
-  </div>
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === '') return;
 
-</div>
+            const task = {
+                id: Date.now(),
+                text: text,
+                dueDate: dueDate.value || null,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
 
-<script>
-  window.addEventListener('load', () => {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      console.error('GSAP or ScrollTrigger not loaded');
-      return;
-    }
+            tasks.unshift(task);
+            taskInput.value = '';
+            dueDate.value = '';
+            renderTasks();
+        }
 
-    gsap.registerPlugin(ScrollTrigger);
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                renderTasks();
+            }
+        }
 
-    // Animate each phase row on scroll
-    const phaseRows = document.querySelectorAll('.phase-row');
-    
-    phaseRows.forEach((row, index) => {
-      ScrollTrigger.create({
-        trigger: row,
-        start: "top 70%",
-        onEnter: () => {
-          row.classList.add('visible');
-        },
-        once: true
-      });
-    });
-  });
-</script>
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            renderTasks();
+        }
 
+        function isOverdue(task) {
+            if (!task.dueDate || task.completed) return false;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const due = new Date(task.dueDate);
+            return due < today;
+        }
+
+        function formatDueDate(dateString) {
+            if (!dateString) return 'No due date';
+            
+            const date = new Date(dateString);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const dueDate = new Date(dateString);
+            dueDate.setHours(0, 0, 0, 0);
+            
+            if (dueDate.getTime() === today.getTime()) {
+                return 'Due today';
+            } else if (dueDate.getTime() === tomorrow.getTime()) {
+                return 'Due tomorrow';
+            } else if (dueDate < today) {
+                return 'Overdue';
+            } else {
+                return `Due ${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+            }
+        }
+
+        function renderTasks() {
+            let filteredTasks = tasks;
+
+            if (currentFilter === 'active') {
+                filteredTasks = tasks.filter(t => !t.completed);
+            } else if (currentFilter === 'completed') {
+                filteredTasks = tasks.filter(t => t.completed);
+            } else if (currentFilter === 'overdue') {
+                filteredTasks = tasks.filter(t => isOverdue(t));
+            }
+
+            if (filteredTasks.length === 0) {
+                const emptyMessages = {
+                    all: 'No tasks yet. Start by adding one above.',
+                    active: 'No active tasks. You\'re all caught up!',
+                    completed: 'No completed tasks yet.',
+                    overdue: 'No overdue tasks. Great work!'
+                };
+
+                tasksList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">✓</div>
+                        <div class="empty-text">${emptyMessages[currentFilter]}</div>
+                    </div>
+                `;
+            } else {
+                tasksList.innerHTML = filteredTasks.map(task => {
+                    const overdue = isOverdue(task);
+                    return `
+                        <div class="task-item ${task.completed ? 'completed' : ''} ${overdue ? 'overdue' : ''}">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" class="checkbox" ${task.completed ? 'checked' : ''} 
+                                       onchange="toggleTask(${task.id})">
+                            </div>
+                            <div class="task-content">
+                                <div class="task-text">${task.text}</div>
+                                <div class="task-due ${overdue ? 'overdue' : ''}">${formatDueDate(task.dueDate)}</div>
+                            </div>
+                            <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const active = total - completed;
+            const overdue = tasks.filter(t => isOverdue(t)).length;
+
+            stats.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-number">${total}</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${active}</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${completed}</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${overdue}</div>
+                    <div class="stat-label">Overdue</div>
+                </div>
+            `;
+        }
+
+        addBtn.addEventListener('click', addTask);
+        
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderTasks();
+            });
+        });
+
+        renderTasks();
+    </script>
+</body>
+</html>
